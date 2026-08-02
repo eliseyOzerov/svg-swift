@@ -54,7 +54,7 @@ scope:
     - "`<fePointLight>` and `<feSpotLight>`."
     - "Specular lighting primitive storage before the `<feSpecularLighting>` TODO bullet."
   assumptions:
-    - Swg stores parsed light sources as `SVGFilterLightSource` values attached to lighting primitives.
+    - SwiftSVG stores parsed light sources as `SVGFilterLightSource` values attached to lighting primitives.
     - Malformed numeric attributes fall back to their initial values.
     - Negative azimuth and elevation values are preserved because both attributes are plain numbers.
 

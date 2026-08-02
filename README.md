@@ -1,6 +1,6 @@
-# swg
+# SwiftSVG
 
-Swift Vector Graphics. `swg` is an independent Swift package for parsing SVG files into a strongly typed model, converting supported geometry into `CGPath`, editing the parsed document tree, and displaying SVG content with `SVG` in SwiftUI.
+Swift Vector Graphics. `swiftsvg` is an independent Swift package for parsing SVG files into a strongly typed model, converting supported geometry into `CGPath`, editing the parsed document tree, and displaying SVG content with `SVG` in SwiftUI.
 
 The package has no third-party dependencies. XML parsing uses Foundation's `XMLParser`, with `FoundationXML` imported on platforms where that module is split out.
 
@@ -10,11 +10,11 @@ The parser is built around the SVG 2 specification and is tracked by a test-gate
 
 Current coverage is strongest in parser/model behavior. The native SwiftUI renderer displays the shape/path/container subset that can already map through `CGPath`, plus basic native linear gradients, radial gradients, gradient spread modes, pattern fills, local clip paths, local masks, basic text runs, local markers, and a clock-based subset of declarative animation. Browser-equivalent rendering for advanced text layout, filters, contextual marker paint, images, motion paths, event-based animation timing, and advanced paint-server behavior is still renderer work in progress even though much of that structure is parsed and modeled.
 
-The matrix below shows one SVG example per visual feature. Each source SVG is parsed by `swg` and rendered through the package's `SVG` SwiftUI view, with animated previews for dynamic animation examples.
+The matrix below shows one SVG example per visual feature. Each source SVG is parsed by `swiftsvg` and rendered through the package's `SVG` SwiftUI view, with animated previews for dynamic animation examples.
 
 ## SVG View Visual Feature Matrix
 
-These previews are generated from one SVG per visual feature by `docs/FeatureGallery.playground/Contents.swift`. The playground writes the source SVGs to `docs/feature-gallery/svg`, parses them with `swg`, renders them through the public `SVG` SwiftUI view, and writes PNG posters to `docs/feature-gallery/png`, GIF previews to `docs/feature-gallery/gif`, and MP4 loops to `docs/feature-gallery/mp4` for animated features.
+These previews are generated from one SVG per visual feature by `docs/FeatureGallery.playground/Contents.swift`. The playground writes the source SVGs to `docs/feature-gallery/svg`, parses them with `swiftsvg`, renders them through the public `SVG` SwiftUI view, and writes PNG posters to `docs/feature-gallery/png`, GIF previews to `docs/feature-gallery/gif`, and MP4 loops to `docs/feature-gallery/mp4` for animated features.
 
 The examples use a neutral light/dark duotone palette by default so shape, transform, layout, and paint mechanics are easier to compare without interpreting arbitrary colors. Filled-and-stroked elements use a light fill with a dark stroke; foreground-only fills stay dark when that makes the feature easier to see. Examples stay colorful only when the feature itself is about color or opacity-specific paint, including fills, strokes, gradients, patterns, span paint overrides, and color-bearing filter properties.
 
@@ -917,11 +917,11 @@ Not actually rendering yet: filter primitives, advanced text layout, contextual 
 </table>
 ## Installation
 
-Add `swg` to a Swift Package:
+Add `swiftsvg` to a Swift Package:
 
 ```swift
 dependencies: [
-	.package(url: "https://github.com/eliseyOzerov/swg.git", branch: "main"),
+	.package(url: "https://github.com/eliseyOzerov/swiftsvg.git", branch: "main"),
 ]
 ```
 
@@ -931,7 +931,7 @@ Then add the product to your target:
 .target(
 	name: "YourTarget",
 	dependencies: [
-		.product(name: "Swg", package: "swg"),
+		.product(name: "SwiftSVG", package: "swiftsvg"),
 	]
 )
 ```
@@ -942,7 +942,7 @@ Use `SVG` when you already have an `SVGDocument`:
 
 ```swift
 import SwiftUI
-import Swg
+import SwiftSVG
 
 struct IconPreview: View {
 	let document: SVGDocument
@@ -1018,7 +1018,7 @@ The current renderer supports native drawing for paths, rectangles, circles, ell
 Use `SVGParser` to turn SVG XML into an `SVGDocument`:
 
 ```swift
-import Swg
+import SwiftSVG
 
 let source = """
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -1090,11 +1090,11 @@ These helpers are the geometry bridge used by the SwiftUI renderer and by caller
 Run the package's iOS simulator test gate with:
 
 ```sh
-xcodebuild test -scheme swg -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
+xcodebuild test -scheme swiftsvg -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
 ```
 
 The suite contains focused parser/model tests, public rendering API tests, document-control tests, and fixture-backed visual tests.
 
 ## Documentation
 
-API and conceptual reference lives in the DocC catalog at `Sources/Swg/Documentation.docc`. In Xcode, build documentation for the `swg` scheme to browse the module reference.
+API and conceptual reference lives in the DocC catalog at `Sources/SwiftSVG/Documentation.docc`. In Xcode, build documentation for the `swiftsvg` scheme to browse the module reference.

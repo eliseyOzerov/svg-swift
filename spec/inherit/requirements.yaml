@@ -7,7 +7,7 @@ work_item:
   title: Explicit inherit keyword
   domain: SVG 2 / CSS Cascading and Inheritance
   profile: null
-  summary: Capture the CSS-wide `inherit` keyword behavior for supported SVG presentation and style properties parsed by swg.
+  summary: Capture the CSS-wide `inherit` keyword behavior for supported SVG presentation and style properties parsed by swiftsvg.
   non_goals:
     - Implicit inheritance when no cascaded value exists, covered by the `inheritance` work item.
     - Other CSS-wide keywords, including `initial`, `unset`, `revert`, and `all`.

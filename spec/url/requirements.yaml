@@ -210,7 +210,7 @@ derived_requirements: []
 implementation_choices:
   - id: IC001
     topic: Base URL resolution
-    statement: swg preserves non-local URL strings without resolving them until the parser has document URL and XML Base support.
+    statement: swiftsvg preserves non-local URL strings without resolving them until the parser has document URL and XML Base support.
     allowed_by:
       - Current parser API does not accept a document base URL.
     source_refs:

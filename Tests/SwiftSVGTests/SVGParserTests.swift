@@ -1,5 +1,5 @@
 import Testing
-@testable import Swg
+@testable import SwiftSVG
 
 @Test func svgParserBuildsDocumentFromFoundationXMLParser() throws {
 	let svg = """

@@ -1,10 +1,10 @@
-# ``Swg``
+# ``SwiftSVG``
 
 Parse, edit, convert, and display SVG content in Swift.
 
 ## Overview
 
-`swg` is Swift Vector Graphics: a small, dependency-free Swift package for reading SVG documents and representing their structure, geometry, paint, metadata, and reusable definitions in Swift.
+`swiftsvg` is Swift Vector Graphics: a small, dependency-free Swift package for reading SVG documents and representing their structure, geometry, paint, metadata, and reusable definitions in Swift.
 
 The package can display supported SVG geometry with ``SVG``, convert editable ``Path`` values into CoreGraphics paths, and let callers derive edited copies of an ``SVGDocument`` before rendering.
 
@@ -18,7 +18,7 @@ Create an ``SVGParser`` and parse either a `String` or `Data` value. Pass the re
 
 ```swift
 import SwiftUI
-import Swg
+import SwiftSVG
 
 let source = """
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

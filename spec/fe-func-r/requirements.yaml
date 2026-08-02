@@ -49,7 +49,7 @@ scope:
     - "Applying transfer functions to pixel values."
     - "Animation elements inside `<feFuncR>`."
   assumptions:
-    - Swg stores parsed transfer functions inside the enclosing `SVGFilterPrimitive.componentTransfer` value.
+    - SwiftSVG stores parsed transfer functions inside the enclosing `SVGFilterPrimitive.componentTransfer` value.
     - Malformed number attributes fall back to their initial values.
     - Malformed `tableValues` lists are treated like omitted lists.
 

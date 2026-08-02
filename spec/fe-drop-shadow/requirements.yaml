@@ -49,7 +49,7 @@ scope:
     - Filter primitive common attributes such as `x`, `y`, `width`, `height`, and `result`.
     - Filter graph input wiring through the `in` attribute.
   assumptions:
-    - Swg stores parsed drop shadow data as one `SVGFilterPrimitive.dropShadow` value for later renderer support.
+    - SwiftSVG stores parsed drop shadow data as one `SVGFilterPrimitive.dropShadow` value for later renderer support.
 
 terminology:
   - id: T001

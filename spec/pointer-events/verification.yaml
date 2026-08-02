@@ -30,9 +30,9 @@ source_context:
     test_ids:
       - T001
   repository_refs:
-    - Sources/Swg/SVGStyle.swift
-    - Sources/Swg/SVGParser.swift
-    - Tests/SwgTests/SVGParserTests.swift
+    - Sources/SwiftSVG/SVGStyle.swift
+    - Sources/SwiftSVG/SVGParser.swift
+    - Tests/SwiftSVGTests/SVGParserTests.swift
 
 test_surfaces:
   - id: TS001
@@ -42,7 +42,7 @@ test_surfaces:
 
 tests_reviewed:
   - id: T001
-    path: Tests/SwgTests/SVGParserTests.swift
+    path: Tests/SwiftSVGTests/SVGParserTests.swift
     name: svgParserAppliesPointerEventsProperty
     verifies:
       requirement_refs:
@@ -66,7 +66,7 @@ commands:
     result: passed
     notes: No whitespace errors.
   - id: CMD003
-    command: xcodebuild test -scheme swg -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
+    command: xcodebuild test -scheme swiftsvg -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
     result: passed
     notes: Full iOS simulator suite passed with 210 tests.
 
@@ -80,8 +80,8 @@ requirement_completeness:
     evidence:
       architecture_refs: []
       implementation_refs:
-        - Sources/Swg/SVGStyle.swift
-        - Sources/Swg/SVGParser.swift
+        - Sources/SwiftSVG/SVGStyle.swift
+        - Sources/SwiftSVG/SVGParser.swift
       test_refs:
         - T001
       command_refs:
@@ -96,7 +96,7 @@ requirement_completeness:
     evidence:
       architecture_refs: []
       implementation_refs:
-        - Sources/Swg/SVGStyle.swift
+        - Sources/SwiftSVG/SVGStyle.swift
       test_refs:
         - T001
       command_refs:
@@ -111,7 +111,7 @@ requirement_completeness:
     evidence:
       architecture_refs: []
       implementation_refs:
-        - Sources/Swg/SVGParser.swift
+        - Sources/SwiftSVG/SVGParser.swift
       test_refs:
         - T001
       command_refs:
@@ -126,7 +126,7 @@ requirement_completeness:
     evidence:
       architecture_refs: []
       implementation_refs:
-        - Sources/Swg/SVGParser.swift
+        - Sources/SwiftSVG/SVGParser.swift
       test_refs:
         - T001
       command_refs:

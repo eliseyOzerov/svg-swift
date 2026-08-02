@@ -140,7 +140,7 @@ requirements:
 coverage:
   status: test-required
   test_files:
-    - Tests/SwgTests/SVGParserTests.swift
+    - Tests/SwiftSVGTests/SVGParserTests.swift
   requirement_to_tests:
     R001:
       - svgParserStoresMaskDefinitionsOutsideRenderableElements

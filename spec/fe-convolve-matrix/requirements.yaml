@@ -44,7 +44,7 @@ scope:
     - "Pixel-grid resampling and interpolation behavior."
     - "Filter primitive common geometry attributes."
   assumptions:
-    - Swg stores parsed filter primitives as `SVGFilterPrimitive` values for later renderer support.
+    - SwiftSVG stores parsed filter primitives as `SVGFilterPrimitive` values for later renderer support.
     - Malformed numeric attributes fall back to their initial or derived default values.
     - Malformed `kernelMatrix` values are treated as an empty list, which usually triggers pass-through because the count does not match `orderX * orderY`.
 

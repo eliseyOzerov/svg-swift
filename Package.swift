@@ -3,16 +3,16 @@
 import PackageDescription
 
 let package = Package(
-	name: "swg",
+	name: "swiftsvg",
 	platforms: [.iOS(.v18), .macOS(.v14), .tvOS(.v17), .visionOS(.v1)],
 	products: [
-		.library(name: "Swg", targets: ["Swg"]),
+		.library(name: "SwiftSVG", targets: ["SwiftSVG"]),
 	],
 	targets: [
-		.target(name: "Swg"),
+		.target(name: "SwiftSVG"),
 		.testTarget(
-			name: "SwgTests",
-			dependencies: ["Swg"],
+			name: "SwiftSVGTests",
+			dependencies: ["SwiftSVG"],
 			resources: [
 				.process("VisualFixtures"),
 			]

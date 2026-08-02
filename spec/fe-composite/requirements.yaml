@@ -43,7 +43,7 @@ scope:
     - "Filter primitive common geometry attributes."
     - "Subregion extent growth rules."
   assumptions:
-    - Swg stores parsed filter primitives as `SVGFilterPrimitive` values for later renderer support.
+    - SwiftSVG stores parsed filter primitives as `SVGFilterPrimitive` values for later renderer support.
     - Malformed numeric coefficient attributes fall back to their initial value `0`.
 
 terminology:

@@ -48,7 +48,7 @@ scope:
     - "Security tainting and origin checks."
     - "Filter primitive common geometry attributes."
   assumptions:
-    - Swg stores the parsed URI reference as a raw string so local and external references are both preserved.
+    - SwiftSVG stores the parsed URI reference as a raw string so local and external references are both preserved.
     - "`href` takes precedence over `xlink:href` when both are present."
     - Malformed `preserveAspectRatio` values fall back to the default.
     - Unknown `crossorigin` values are represented as absent.

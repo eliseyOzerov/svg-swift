@@ -38,7 +38,7 @@ scope:
     - Filter region geometry resolution.
     - Filter evaluation and clipping.
   assumptions:
-    - Swg exposes the parsed coordinate-space choice on `SVGFilterDef` for downstream renderers.
+    - SwiftSVG exposes the parsed coordinate-space choice on `SVGFilterDef` for downstream renderers.
 
 terminology:
   - id: T001

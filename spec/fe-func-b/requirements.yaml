@@ -47,7 +47,7 @@ scope:
     - "Applying transfer functions to pixel values."
     - "Animation elements inside `<feFuncB>`."
   assumptions:
-    - Swg stores parsed transfer functions inside the enclosing `SVGFilterPrimitive.componentTransfer` value.
+    - SwiftSVG stores parsed transfer functions inside the enclosing `SVGFilterPrimitive.componentTransfer` value.
     - Shared transfer function attribute parsing is covered by the `<feFuncR>` requirements and tests.
 
 terminology:

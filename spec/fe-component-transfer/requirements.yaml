@@ -42,7 +42,7 @@ scope:
     - "The last-occurrence rule for repeated channel functions."
     - "Rendering-time channel remapping."
   assumptions:
-    - Swg stores parsed filter primitives as `SVGFilterPrimitive` values for later renderer support.
+    - SwiftSVG stores parsed filter primitives as `SVGFilterPrimitive` values for later renderer support.
     - Per-channel transfer functions will extend the primitive in the following checklist items.
 
 terminology:

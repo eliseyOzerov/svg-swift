@@ -45,7 +45,7 @@ scope:
     - "Rendering-time layer compositing."
     - "Filter primitive common geometry attributes."
   assumptions:
-    - Swg stores merge inputs on the merge primitive as an ordered optional string list.
+    - SwiftSVG stores merge inputs on the merge primitive as an ordered optional string list.
     - The input list remains empty until `<feMergeNode>` parsing is implemented.
 
 terminology:

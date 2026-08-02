@@ -4,11 +4,11 @@ Parse an SVG string, display it in SwiftUI, and convert its geometry when you ne
 
 ## Overview
 
-`swg` starts with an SVG source string or data value. ``SVGParser`` turns that source into an ``SVGDocument``, which you can inspect, edit, convert to paths, or pass directly to ``SVG``.
+`swiftsvg` starts with an SVG source string or data value. ``SVGParser`` turns that source into an ``SVGDocument``, which you can inspect, edit, convert to paths, or pass directly to ``SVG``.
 
 ```swift
 import SwiftUI
-import Swg
+import SwiftSVG
 
 let source = """
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

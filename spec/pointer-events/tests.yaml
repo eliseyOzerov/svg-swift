@@ -24,9 +24,9 @@ source_context:
     entity_ids: []
     interface_ids: []
   repository_refs:
-    - Tests/SwgTests/SVGParserTests.swift
-    - Sources/Swg/SVGParser.swift
-    - Sources/Swg/SVGStyle.swift
+    - Tests/SwiftSVGTests/SVGParserTests.swift
+    - Sources/SwiftSVG/SVGParser.swift
+    - Sources/SwiftSVG/SVGStyle.swift
 
 test_surfaces:
   - id: TS001
@@ -106,7 +106,7 @@ test_cases:
 
 tests_written:
   - id: T001
-    path: Tests/SwgTests/SVGParserTests.swift
+    path: Tests/SwiftSVGTests/SVGParserTests.swift
     name: svgParserAppliesPointerEventsProperty
     test_case_refs:
       - TC001
@@ -124,7 +124,7 @@ fixtures: []
 
 commands:
   - id: CMD001
-    command: xcodebuild test -scheme swg -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
+    command: xcodebuild test -scheme swiftsvg -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
     result: failed
     expected_red: true
     notes: Initial implementation exposed optional `.none` ambiguity for the SVG `none` keyword; this was a valid red signal before the corrected implementation.

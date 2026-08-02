@@ -53,7 +53,7 @@ scope:
     - "Rendering-time compositing."
     - "Resolving omitted `in` to previous primitive output."
   assumptions:
-    - Swg stores merge-node inputs as an ordered list on `SVGFilterPrimitive.merge`.
+    - SwiftSVG stores merge-node inputs as an ordered list on `SVGFilterPrimitive.merge`.
     - Omitted `in` values are preserved as `nil`.
     - Merge nodes outside an active `<feMerge>` are ignored.
 

@@ -33,7 +33,7 @@ source_context:
 
 changes:
   production_files:
-    - path: Sources/Swg/SVGStyle.swift
+    - path: Sources/SwiftSVG/SVGStyle.swift
       action: update
       entities:
         - SVGPaintAttributes
@@ -43,7 +43,7 @@ changes:
         - R002
         - R003
       architecture_refs: []
-    - path: Sources/Swg/SVGParser.swift
+    - path: Sources/SwiftSVG/SVGParser.swift
       action: update
       entities:
         - SVGParser
@@ -54,7 +54,7 @@ changes:
         - R004
       architecture_refs: []
   documentation:
-    - path: Sources/Swg/SVGStyle.swift
+    - path: Sources/SwiftSVG/SVGStyle.swift
       api_refs:
         - SVGPointerEvents
       summary: Added a public doc comment for the parser-facing `pointer-events` value enum.
@@ -70,7 +70,7 @@ commands:
     result: passed
     notes: No whitespace errors.
   - id: CMD003
-    command: xcodebuild test -scheme swg -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
+    command: xcodebuild test -scheme swiftsvg -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
     result: passed
     notes: Full iOS simulator suite passed with 210 tests.
 

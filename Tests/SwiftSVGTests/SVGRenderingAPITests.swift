@@ -2,7 +2,7 @@ import CoreGraphics
 import Foundation
 import SwiftUI
 import Testing
-@testable import Swg
+@testable import SwiftSVG
 
 @Test func svgPathConvertsToCoreGraphicsPath() {
 	let path = SVGRectData(id: "box", x: 2, y: 3, width: 10, height: 12, rx: 0, ry: 0, attributes: .defaults).path

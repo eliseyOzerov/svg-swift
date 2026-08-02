@@ -1,4 +1,4 @@
-# swg SVG Coverage TODO
+# SwiftSVG SVG Coverage TODO
 
 This checklist is test-gated: only mark an item `- [x]` when there is at least one focused test proving that SVG feature. Existing code without a focused test stays unchecked.
 

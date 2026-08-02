@@ -4,7 +4,7 @@ Use fixture-backed raster comparisons for SVG features that affect rendered outp
 
 ## Overview
 
-`swg` has two validation layers:
+`swiftsvg` has two validation layers:
 
 - Focused parser and model tests prove that an SVG feature is recognized, normalized, inherited, preserved, or converted into the expected Swift value.
 - Visual tests prove that render-affecting features produce the expected pixel-level output for a bounded fixture.
@@ -19,11 +19,11 @@ Those gallery examples are intended for human-facing documentation. The smaller 
 
 ## Fixture Layout
 
-Visual fixtures live in `Tests/SwgTests/VisualFixtures`. Each case has one `.svg` input and one `.golden.txt` output file with the same base name:
+Visual fixtures live in `Tests/SwiftSVGTests/VisualFixtures`. Each case has one `.svg` input and one `.golden.txt` output file with the same base name:
 
 ```text
-Tests/SwgTests/VisualFixtures/basic-paint.svg
-Tests/SwgTests/VisualFixtures/basic-paint.golden.txt
+Tests/SwiftSVGTests/VisualFixtures/basic-paint.svg
+Tests/SwiftSVGTests/VisualFixtures/basic-paint.golden.txt
 ```
 
 Add a test in `SVGVisualValidationTests.swift` that calls the shared fixture assertion:

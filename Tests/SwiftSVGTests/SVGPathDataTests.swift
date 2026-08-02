@@ -1,5 +1,5 @@
 import Testing
-@testable import Swg
+@testable import SwiftSVG
 
 @Test func svgPathParserHandlesRelativeLinesAndClose() {
 	let path = SVGPathDataParser.parse("M 10 10 h 20 v 15 l -5 5 z")

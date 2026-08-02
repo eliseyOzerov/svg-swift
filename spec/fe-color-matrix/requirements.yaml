@@ -44,7 +44,7 @@ scope:
     - Matrix expansion for convenience operations.
     - Filter primitive common geometry attributes.
   assumptions:
-    - Swg stores parsed filter primitives as `SVGFilterPrimitive` values for later renderer support.
+    - SwiftSVG stores parsed filter primitives as `SVGFilterPrimitive` values for later renderer support.
     - A malformed `values` attribute cannot produce a valid number list, so it is treated as pass-through rather than as an omitted value.
 
 terminology:

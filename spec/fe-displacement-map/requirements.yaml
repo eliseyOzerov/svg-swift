@@ -48,7 +48,7 @@ scope:
     - "Color-interpolation-filters handling for `in2`."
     - "Filter primitive common geometry attributes."
   assumptions:
-    - Swg stores parsed filter primitives as `SVGFilterPrimitive` values for later renderer support.
+    - SwiftSVG stores parsed filter primitives as `SVGFilterPrimitive` values for later renderer support.
     - Malformed numeric attributes fall back to their initial values.
     - Negative `scale` values are preserved because the source defines `scale` as a number without a non-negative constraint.
     - Unknown or lowercase channel selector values use the initial selector `A`.

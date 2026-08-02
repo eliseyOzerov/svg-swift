@@ -55,7 +55,7 @@ terminology:
       - xml10-start-tags
   - id: term-unknown-attribute
     term: Unknown attribute
-    definition: An XML attribute that the current swg parser does not interpret as a structural, geometry, style, paint, namespace declaration, or URL-reference field.
+    definition: An XML attribute that the current swiftsvg parser does not interpret as a structural, geometry, style, paint, namespace declaration, or URL-reference field.
     source_refs:
       - xml10-start-tags
       - svg2-foreign-namespaces

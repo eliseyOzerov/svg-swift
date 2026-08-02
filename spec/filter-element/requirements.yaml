@@ -41,7 +41,7 @@ scope:
     - Primitive-specific parsing beyond existing supported primitive records.
     - Rendering-time filter evaluation.
   assumptions:
-    - Swg stores reusable filter definitions in `SVGDocument.defs.filters` keyed by local fragment ID.
+    - SwiftSVG stores reusable filter definitions in `SVGDocument.defs.filters` keyed by local fragment ID.
 
 terminology:
   - id: T001

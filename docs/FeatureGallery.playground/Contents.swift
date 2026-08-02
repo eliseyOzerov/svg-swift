@@ -2,7 +2,7 @@ import AVFoundation
 import CoreGraphics
 import Foundation
 import ImageIO
-import Swg
+import SwiftSVG
 import SwiftUI
 import UniformTypeIdentifiers
 

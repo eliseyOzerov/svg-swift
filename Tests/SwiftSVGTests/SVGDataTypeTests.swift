@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Swg
+@testable import SwiftSVG
 
 @Test func svgIntegerParserParsesSignedDigitSequences() {
 	#expect(SVGIntegerParser.parse("0") == 0)

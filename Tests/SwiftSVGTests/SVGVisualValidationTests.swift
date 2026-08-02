@@ -4,7 +4,7 @@ import Foundation
 import SwiftUI
 import Testing
 import UIKit
-@testable import Swg
+@testable import SwiftSVG
 
 @MainActor @Test func svgVisualValidationRendersBasicPaintFixture() throws {
 	try assertVisualFixture("basic-paint")

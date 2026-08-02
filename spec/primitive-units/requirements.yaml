@@ -39,7 +39,7 @@ scope:
     - Filter primitive subregion clipping.
     - Rendering-time filter evaluation.
   assumptions:
-    - Swg exposes the parsed primitive coordinate-space choice on `SVGFilterDef` for downstream renderers.
+    - SwiftSVG exposes the parsed primitive coordinate-space choice on `SVGFilterDef` for downstream renderers.
 
 terminology:
   - id: T001

@@ -108,7 +108,7 @@ implementation_choices:
     topic: Missing id attributes
     statement: Elements without explicit id attributes may retain generated internal IDs for current library compatibility.
     allowed_by:
-      - Existing swg API shape
+      - Existing swiftsvg API shape
     source_refs:
       - svg2-id
 ambiguities: []

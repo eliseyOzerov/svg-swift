@@ -61,7 +61,7 @@ scope:
     - "Non-inline cascade sources for `flood-color` and `flood-opacity`."
     - "Animation."
   assumptions:
-    - Swg stores the effective flood color, including alpha after opacity multiplication, as `Color`.
+    - SwiftSVG stores the effective flood color, including alpha after opacity multiplication, as `Color`.
     - Malformed color attributes fall back to black.
     - Malformed opacity attributes fall back to `1`.
 

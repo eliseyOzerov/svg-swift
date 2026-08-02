@@ -49,7 +49,7 @@ scope:
     - Source-over compositing execution.
     - Filter primitive common geometry attributes.
   assumptions:
-    - Swg stores parsed filter primitives as `SVGFilterPrimitive` values for later renderer support.
+    - SwiftSVG stores parsed filter primitives as `SVGFilterPrimitive` values for later renderer support.
     - Input names are preserved as strings because they may be standard source keywords or author-defined filter result names.
 
 terminology:

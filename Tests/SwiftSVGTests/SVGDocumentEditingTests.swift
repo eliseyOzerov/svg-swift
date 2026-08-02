@@ -1,5 +1,5 @@
 import Testing
-@testable import Swg
+@testable import SwiftSVG
 
 @Test func svgDocumentFindsNestedElementByID() throws {
 	let svg = """
