@@ -215,6 +215,47 @@ public struct SVG: View {
 	}
 }
 
+public extension SVG {
+	/// Returns a copy of this SVG using the requested rendering mode.
+	func renderingMode(_ renderingMode: SVGRenderingMode) -> SVG {
+		var copy = self
+		copy.options.renderingMode = renderingMode
+		return copy
+	}
+
+	/// Returns a copy of this SVG that either preserves authored paint colors or renders as a template.
+	func preservingOriginalColors(_ preservesOriginalColors: Bool = true) -> SVG {
+		renderingMode(preservesOriginalColors ? .original : .template)
+	}
+
+	/// Returns a copy of this SVG that renders all fill paint with a single SwiftUI color.
+	func fill(_ color: SwiftUI.Color) -> SVG {
+		var copy = self
+		copy.options.fillColor = color
+		return copy
+	}
+
+	/// Returns a copy of this SVG that renders all stroke paint with a single SwiftUI color and line width.
+	func stroke(_ color: SwiftUI.Color, lineWidth: Double) -> SVG {
+		var copy = self
+		copy.options.strokeColor = color
+		copy.options.strokeWidth = lineWidth
+		return copy
+	}
+
+	/// Returns a copy of this SVG that renders all stroke paint with a single SwiftUI color.
+	func stroke(_ color: SwiftUI.Color) -> SVG {
+		var copy = self
+		copy.options.strokeColor = color
+		return copy
+	}
+
+	/// Returns a copy of this SVG that renders all stroke paint with a single SwiftUI color and line width.
+	func stroke(thickness: Double, color: SwiftUI.Color) -> SVG {
+		stroke(color, lineWidth: thickness)
+	}
+}
+
 /// Controls how `SVG` maps a parsed document into SwiftUI layout and drawing.
 public struct SVGRenderOptions {
 	/// The SwiftUI content mode used when the view proposes the document aspect ratio.
@@ -227,6 +268,14 @@ public struct SVGRenderOptions {
 	public var animationsEnabled: Bool
 	/// A fixed document time in seconds for deterministic animation snapshots, or `nil` for live SwiftUI timeline rendering.
 	public var animationTime: TimeInterval?
+	/// Whether SVG paint is rendered as authored or as the current SwiftUI foreground style.
+	public var renderingMode: SVGRenderingMode
+	/// An optional root fill color override applied to rendered shapes and text.
+	public var fillColor: SwiftUI.Color?
+	/// An optional root stroke color override applied to rendered shapes.
+	public var strokeColor: SwiftUI.Color?
+	/// An optional root stroke width override applied to rendered shapes.
+	public var strokeWidth: Double?
 
 	/// Creates rendering options for `SVG`.
 	///
@@ -236,12 +285,39 @@ public struct SVGRenderOptions {
 	///   - opacity: A root opacity multiplier applied to rendered content.
 	///   - animationsEnabled: Whether declarative SVG animation elements are applied during rendering.
 	///   - animationTime: A fixed document time in seconds, or `nil` to render animations live.
-	public init(contentMode: ContentMode = .fit, preserveAspectRatio: SVGPreserveAspectRatio? = nil, opacity: Double = 1, animationsEnabled: Bool = true, animationTime: TimeInterval? = nil) {
+	///   - renderingMode: Whether to render SVG paint as authored or as the current SwiftUI foreground style.
+	///   - fillColor: A root fill color override, or `nil` to use parsed fill paint.
+	///   - strokeColor: A root stroke color override, or `nil` to use parsed stroke paint.
+	///   - strokeWidth: A root stroke width override, or `nil` to use parsed stroke widths.
+	public init(contentMode: ContentMode = .fit, preserveAspectRatio: SVGPreserveAspectRatio? = nil, opacity: Double = 1, animationsEnabled: Bool = true, animationTime: TimeInterval? = nil, renderingMode: SVGRenderingMode = .template, fillColor: SwiftUI.Color? = nil, strokeColor: SwiftUI.Color? = nil, strokeWidth: Double? = nil) {
 		self.contentMode = contentMode
 		self.preserveAspectRatio = preserveAspectRatio
 		self.opacity = opacity
 		self.animationsEnabled = animationsEnabled
 		self.animationTime = animationTime
+		self.renderingMode = renderingMode
+		self.fillColor = fillColor
+		self.strokeColor = strokeColor
+		self.strokeWidth = strokeWidth
+	}
+}
+
+/// Controls whether `SVG` renders authored colors or inherits SwiftUI foreground styling.
+public enum SVGRenderingMode: Equatable, Sendable {
+	/// Render fill and stroke paint using the colors parsed from the SVG document.
+	case original
+	/// Render existing fill and stroke paint using the current SwiftUI foreground style.
+	case template
+}
+
+private extension SVGPaint {
+	var hasRenderablePaint: Bool {
+		switch self {
+		case .none, .contextFill, .contextStroke:
+			return false
+		case .color, .currentColor, .url, .urlWithFallback:
+			return true
+		}
 	}
 }
 
@@ -453,15 +529,24 @@ private struct SVGCanvasRenderer {
 							fill(path: path, bounds: pathBounds, paint: attributes.fill, currentColor: attributes.color, opacity: opacity * attributes.fillOpacity, fillRule: attributes.fillRule, in: &maskedLayer)
 						}
 					case .stroke:
-						if let shading = shading(from: attributes.stroke, currentColor: attributes.color, opacity: opacity * attributes.strokeOpacity, bounds: pathBounds), attributes.strokeWidth > 0 {
-							maskedLayer.stroke(path, with: shading, style: StrokeStyle(
-								lineWidth: CGFloat(attributes.strokeWidth),
+						let strokeWidth = options.strokeWidth ?? attributes.strokeWidth
+						let strokeOpacity = opacity * attributes.strokeOpacity
+						if let shading = strokeShading(for: attributes, opacity: strokeOpacity, bounds: pathBounds), strokeWidth > 0 {
+							let strokeStyle = StrokeStyle(
+								lineWidth: CGFloat(strokeWidth),
 								lineCap: attributes.strokeLineCap.cgLineCap,
 								lineJoin: attributes.strokeLineJoin.cgLineJoin,
 								miterLimit: CGFloat(attributes.strokeMiterLimit),
 								dash: attributes.strokeDashArray.map { CGFloat($0) },
 								dashPhase: CGFloat(attributes.strokeDashOffset)
-							))
+							)
+							if options.renderingMode == .template, options.strokeColor == nil, attributes.stroke.hasRenderablePaint {
+								drawWithOpacity(strokeOpacity, in: &maskedLayer) { layer in
+									layer.stroke(path, with: shading, style: strokeStyle)
+								}
+							} else {
+								maskedLayer.stroke(path, with: shading, style: strokeStyle)
+							}
 						}
 					case .markers:
 						renderMarkers(for: model, attributes: attributes, inheritedOpacity: opacity, timeline: timeline, in: &maskedLayer)
@@ -524,7 +609,7 @@ private struct SVGCanvasRenderer {
 					definition: marker,
 					point: firstSegment.start,
 					angle: markerAngle(for: marker.orient, incoming: nil, outgoing: firstSegment.startDirection, isStart: true),
-					strokeWidth: attributes.strokeWidth
+					strokeWidth: options.strokeWidth ?? attributes.strokeWidth
 				))
 			}
 			if let marker = markerDefinition(for: attributes.markerMid), subpath.segments.count > 1 {
@@ -535,7 +620,7 @@ private struct SVGCanvasRenderer {
 						definition: marker,
 						point: subpath.segments[index].end,
 						angle: markerAngle(for: marker.orient, incoming: incoming, outgoing: outgoing, isStart: false),
-						strokeWidth: attributes.strokeWidth
+						strokeWidth: options.strokeWidth ?? attributes.strokeWidth
 					))
 				}
 			}
@@ -544,7 +629,7 @@ private struct SVGCanvasRenderer {
 					definition: marker,
 					point: lastSegment.end,
 					angle: markerAngle(for: marker.orient, incoming: lastSegment.endDirection, outgoing: nil, isStart: false),
-					strokeWidth: attributes.strokeWidth
+					strokeWidth: options.strokeWidth ?? attributes.strokeWidth
 				))
 			}
 		}
@@ -720,9 +805,17 @@ private struct SVGCanvasRenderer {
 				for run in runs {
 					var resolved = maskedLayer.resolve(SwiftUI.Text(run.text).font(run.font))
 					let runBounds = Rect(x: run.x, y: run.y - Double(run.baseline), width: Double(run.size.width), height: Double(run.size.height))
-					guard let shading = shading(from: run.attributes.fill, currentColor: run.attributes.color, opacity: run.opacity * run.attributes.fillOpacity, bounds: runBounds) else { continue }
+					let fillOpacity = run.opacity * run.attributes.fillOpacity
+					guard let shading = fillShading(for: run.attributes, opacity: fillOpacity, bounds: runBounds) else { continue }
 					resolved.shading = shading
-					maskedLayer.draw(resolved, in: CGRect(x: run.x, y: run.y - Double(run.baseline), width: Double(run.size.width), height: Double(run.size.height)))
+					let textRect = CGRect(x: run.x, y: run.y - Double(run.baseline), width: Double(run.size.width), height: Double(run.size.height))
+					if options.renderingMode == .template, options.fillColor == nil, run.attributes.fill.hasRenderablePaint {
+						drawWithOpacity(fillOpacity, in: &maskedLayer) { layer in
+							layer.draw(resolved, in: textRect)
+						}
+					} else {
+						maskedLayer.draw(resolved, in: textRect)
+					}
 				}
 			}
 		}
@@ -1002,11 +1095,49 @@ private struct SVGCanvasRenderer {
 	}
 
 	private func fill(path: SwiftUI.Path, bounds: Rect, paint: SVGPaint, currentColor: Color, opacity: Double, fillRule: FillRule, in context: inout GraphicsContext) {
-		if let patternID = patternID(from: paint), let pattern = document.defs.patterns[patternID] {
+		if let fillColor = options.fillColor, paint.hasRenderablePaint {
+			context.fill(path, with: .color(fillColor.opacity(opacity)), style: FillStyle(eoFill: fillRule == .evenOdd))
+		} else if options.renderingMode == .template, paint.hasRenderablePaint {
+			drawWithOpacity(opacity, in: &context) { layer in
+				layer.fill(path, with: .foreground, style: FillStyle(eoFill: fillRule == .evenOdd))
+			}
+		} else if let patternID = patternID(from: paint), let pattern = document.defs.patterns[patternID] {
 			fill(path: path, bounds: bounds, pattern: pattern, opacity: opacity, fillRule: fillRule, in: &context)
 		} else if let shading = shading(from: paint, currentColor: currentColor, opacity: opacity, bounds: bounds) {
 			context.fill(path, with: shading, style: FillStyle(eoFill: fillRule == .evenOdd))
 		}
+	}
+
+	private func fillShading(for attributes: SVGPaintAttributes, opacity: Double, bounds: Rect) -> GraphicsContext.Shading? {
+		if let fillColor = options.fillColor, attributes.fill.hasRenderablePaint {
+			return .color(fillColor.opacity(opacity))
+		}
+		if options.renderingMode == .template, attributes.fill.hasRenderablePaint {
+			return .foreground
+		}
+		return shading(from: attributes.fill, currentColor: attributes.color, opacity: opacity, bounds: bounds)
+	}
+
+	private func strokeShading(for attributes: SVGPaintAttributes, opacity: Double, bounds: Rect) -> GraphicsContext.Shading? {
+		if let strokeColor = options.strokeColor, attributes.stroke.hasRenderablePaint {
+			return .color(strokeColor.opacity(opacity))
+		}
+		if options.renderingMode == .template, attributes.stroke.hasRenderablePaint {
+			return .foreground
+		}
+		return shading(from: attributes.stroke, currentColor: attributes.color, opacity: opacity, bounds: bounds)
+	}
+
+	private func drawWithOpacity(_ opacity: Double, in context: inout GraphicsContext, _ draw: (inout GraphicsContext) -> Void) {
+		guard opacity < 0.999999 else {
+			draw(&context)
+			return
+		}
+
+		let originalOpacity = context.opacity
+		context.opacity = originalOpacity * opacity
+		draw(&context)
+		context.opacity = originalOpacity
 	}
 
 	private func fill(path: SwiftUI.Path, bounds: Rect, pattern: SVGPatternDef, opacity: Double, fillRule: FillRule, in context: inout GraphicsContext) {

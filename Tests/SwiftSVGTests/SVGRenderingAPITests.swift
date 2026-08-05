@@ -37,6 +37,33 @@ import Testing
 	#expect(sourceView.document?.elementIDs == ["dot"])
 }
 
+@MainActor @Test func svgFillAndStrokeModifiersUpdateRenderOptions() throws {
+	let svg = """
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+		<path id="mark" d="M4 12 L10 18 L20 6" fill="none" stroke="blue"/>
+	</svg>
+	"""
+	let document = try #require(SVGParser().parse(svg))
+
+	let styledView = SVG(document)
+		.fill(.red)
+		.stroke(.blue, lineWidth: 2)
+	let thicknessStyledView = styledView.stroke(thickness: 3, color: .green)
+	let strokeColorView = SVG(document).stroke(.purple)
+	let templateView = SVG(document)
+	let originalColorView = templateView.preservingOriginalColors()
+
+	#expect(styledView.options.fillColor != nil)
+	#expect(styledView.options.strokeColor != nil)
+	#expect(styledView.options.strokeWidth == 2)
+	#expect(thicknessStyledView.options.strokeColor != nil)
+	#expect(thicknessStyledView.options.strokeWidth == 3)
+	#expect(strokeColorView.options.strokeColor != nil)
+	#expect(strokeColorView.options.strokeWidth == nil)
+	#expect(templateView.options.renderingMode == .template)
+	#expect(originalColorView.options.renderingMode == .original)
+}
+
 @MainActor @Test func svgCanRenderFromDocumentBindings() throws {
 	let svg = """
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
