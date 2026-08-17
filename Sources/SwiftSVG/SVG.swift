@@ -249,11 +249,6 @@ public extension SVG {
 		copy.options.strokeColor = color
 		return copy
 	}
-
-	/// Returns a copy of this SVG that renders all stroke paint with a single SwiftUI color and line width.
-	func stroke(thickness: Double, color: SwiftUI.Color) -> SVG {
-		stroke(color, lineWidth: thickness)
-	}
 }
 
 /// Controls how `SVG` maps a parsed document into SwiftUI layout and drawing.
