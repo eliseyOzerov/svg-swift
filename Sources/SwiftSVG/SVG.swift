@@ -169,7 +169,9 @@ public struct SVG: View {
 			_boundDocument = .constant(nil)
 			usesBoundDocument = false
 		}
-		_loadedDocument = State(initialValue: initialDocument)
+		// Only loaded sources fill this; a passed-in document is read fresh from
+		// `initialDocument` so a new one replaces the old.
+		_loadedDocument = State(initialValue: nil)
 		_loadedSourceID = State(initialValue: nil)
 		self.initialDocument = initialDocument
 		self.loadSource = loadSource
@@ -180,7 +182,7 @@ public struct SVG: View {
 		"\(loadSource?.id ?? "none"):\(renderDocument == nil)"
 	}
 
-	private var renderDocument: SVGDocument? {
+	var renderDocument: SVGDocument? {
 		usesBoundDocument ? boundDocument : loadedDocument ?? initialDocument
 	}
 

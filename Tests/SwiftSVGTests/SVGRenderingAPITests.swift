@@ -48,7 +48,7 @@ import Testing
 	let styledView = SVG(document)
 		.fill(.red)
 		.stroke(.blue, lineWidth: 2)
-	let thicknessStyledView = styledView.stroke(thickness: 3, color: .green)
+	let thicknessStyledView = styledView.stroke(.green, lineWidth: 3)
 	let strokeColorView = SVG(document).stroke(.purple)
 	let templateView = SVG(document)
 	let originalColorView = templateView.preservingOriginalColors()
@@ -124,4 +124,23 @@ import Testing
 	let document = try #require(await SVGDocumentLoader.load(from: .file(fileURL)))
 
 	#expect(document.elementIDs == ["dot"])
+}
+
+@MainActor @Test func svgPassedInDocumentIsReadFreshAndReplacedByNewOne() throws {
+	func parse(_ id: String) throws -> SVGDocument {
+		try #require(SVGParser().parse("""
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle id="\(id)" cx="12" cy="12" r="4"/></svg>
+		"""))
+	}
+
+	let first = SVG(try parse("first"))
+	let second = SVG(try parse("second"))
+
+	// A passed-in document renders straight from `initialDocument`, never from cached `@State`,
+	// so a new view value (same identity in a parent) replaces the old document.
+	#expect(first.renderDocument?.elementIDs == ["first"])
+	#expect(second.renderDocument?.elementIDs == ["second"])
+
+	// A source-backed view has no document until loading fills `_loadedDocument`.
+	#expect(SVG(url: URL(string: "https://example.com/a.svg")!).renderDocument == nil)
 }
